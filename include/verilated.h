@@ -1,6 +1,6 @@
 #define VL_DEBUG  // FIXME
 #include <iostream>  // FIXME
-#define HERE  do { std::cerr << "Here "<<__FILE__<<":"<<__LINE__<<" "<<__FUNCTION__<<std::endl } while(0)
+#define HERE  do { std::cerr << "Here "<<__FILE__<<":"<<__LINE__<<" "<<__FUNCTION__<<std::endl; } while(0)
 // -*- mode: C++; c-file-style: "cc-mode" -*-
 //*************************************************************************
 //
