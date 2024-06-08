@@ -19,10 +19,10 @@ cd build
 cmake ..
 cmake --build . --config Release -j 3
 
-Release/example.exe
+Release/example.exe --debugi 9
 
 cd ..
 dir
 Remove-Item -path build -recurse
 
-exit 0
+#exit 0
