@@ -44,6 +44,11 @@ jobs:
       env:
         WIN_FLEX_BISON: ${{ github.workspace }}/.ccache
       run: ./ci/ci-win-compile.ps1
+
+############################
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+
     - name: test build
       run: ./ci/ci-win-test.ps1
     - name: Zip up repository
