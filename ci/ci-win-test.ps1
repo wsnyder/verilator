@@ -26,8 +26,13 @@ Release/example.exe --debugi 9
 #FIXME Remove-Item -path build -recurse
 #
 
+#  choco install nano
 #  nano D:\a\verilator\verilator\repo\install\examples\cmake_hello_c\build\CMakeFiles\example.dir\Vtop.dir\Vtop__main.cpp
 #  cmake --build . --config Release -j 3 ; Release/example.exe
+#
+#  winget install Microsoft.WinDbg
 
+
+# std::cerr << "Here "<<__FILE__<<":"<<__LINE__<<" "<<__FUNCTION__<<std::endl;
 
 #exit 0
