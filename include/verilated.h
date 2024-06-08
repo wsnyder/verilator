@@ -1,3 +1,6 @@
+#define VL_DEBUG  // FIXME
+#include <iostream>  // FIXME
+#define HERE  do { std::cerr << "Here "<<__FILE__<<":"<<__LINE__<<" "<<__FUNCTION__<<std::endl } while(0)
 // -*- mode: C++; c-file-style: "cc-mode" -*-
 //*************************************************************************
 //
@@ -175,7 +178,7 @@ extern uint32_t VL_THREAD_ID() VL_MT_SAFE;
 /// Mutex, wrapped to allow -fthread_safety checks
 class VL_CAPABILITY("mutex") VerilatedMutex final {
 private:
-    std::mutex m_mutex;  // Mutex
+    std::mutex m_mutex{};  // Mutex
 
 public:
     /// Construct mutex (without locking it)
@@ -187,18 +190,36 @@ public:
     void lock() VL_ACQUIRE() VL_MT_SAFE {
         // Try to acquire the lock by spinning.  If the wait is short,
         // avoids a trap to the OS plus OS scheduler overhead.
-        if (VL_LIKELY(try_lock())) return;  // Short circuit loop
+        HERE;
+        if (VL_LIKELY(try_lock())) {
+            HERE;
+            return;
+        }  // Short circuit loop
+        HERE;
         for (int i = 0; i < VL_LOCK_SPINS; ++i) {
-            if (VL_LIKELY(try_lock())) return;
+            HERE;
+            if (VL_LIKELY(try_lock())) {
+                HERE;
+                return;
+            }
+            HERE;
             VL_CPU_RELAX();
+            HERE;
         }
         // Spinning hasn't worked, pay the cost of blocking.
+        HERE;
         m_mutex.lock();
+        HERE;
     }
     /// Release/unlock mutex
-    void unlock() VL_RELEASE() VL_MT_SAFE { m_mutex.unlock(); }
+    void unlock() VL_RELEASE() VL_MT_SAFE { HERE; m_mutex.unlock(); HERE; }
     /// Try to acquire mutex.  Returns true on success, and false on failure.
-    bool try_lock() VL_TRY_ACQUIRE(true) VL_MT_SAFE { return m_mutex.try_lock(); }
+    bool try_lock() VL_TRY_ACQUIRE(true) VL_MT_SAFE {
+        HERE;
+        bool tl = m_mutex.try_lock();
+        HERE;
+        return tl;
+    }
     /// Acquire/lock mutex and check for stop request
     /// It tries to lock the mutex and if it fails, it check if stop request was send.
     /// It returns after locking mutex.
@@ -206,10 +227,15 @@ public:
     /// limitations it needs to be placed here.
     void lockCheckStopRequest(std::function<void()> checkStopRequestFunction)
         VL_ACQUIRE() VL_MT_SAFE {
+        HERE;
         while (true) {
+            HERE;
             checkStopRequestFunction();
-            if (m_mutex.try_lock()) return;
+            HERE;
+            if (m_mutex.try_lock()) { HERE; return; }
+            HERE;
             VL_CPU_RELAX();
+            HERE;
         }
     }
 };
@@ -225,10 +251,16 @@ public:
     /// Construct and hold given mutex lock until destruction or unlock()
     explicit VerilatedLockGuard(VerilatedMutex& mutexr) VL_ACQUIRE(mutexr) VL_MT_SAFE
         : m_mutexr(mutexr) {  // Need () or GCC 4.8 false warning
+        HERE;
         mutexr.lock();
+        HERE;
     }
     /// Destruct and unlock the mutex
-    ~VerilatedLockGuard() VL_RELEASE() { m_mutexr.unlock(); }
+    ~VerilatedLockGuard() VL_RELEASE() {
+        HERE;
+        m_mutexr.unlock();
+        HERE;
+    }
 };
 
 // Internals: Remember the calling thread at construction time, and make

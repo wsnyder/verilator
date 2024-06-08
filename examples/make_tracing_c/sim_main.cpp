@@ -21,6 +21,7 @@ int main(int argc, char** argv) {
     // This is a more complicated example, please also see the simpler examples/make_hello_c.
 
     // Create logs/ directory in case we have traces to put under it
+    HERE;
     Verilated::mkdir("logs");
 
     // Construct a VerilatedContext to hold simulation time, etc.
@@ -30,28 +31,34 @@ int main(int argc, char** argv) {
 
     // Using unique_ptr is similar to
     // "VerilatedContext* contextp = new VerilatedContext" then deleting at end.
+    HERE;
     const std::unique_ptr<VerilatedContext> contextp{new VerilatedContext};
     // Do not instead make Vtop as a file-scope static variable, as the
     // "C++ static initialization order fiasco" may cause a crash
 
     // Set debug level, 0 is off, 9 is highest presently used
     // May be overridden by commandArgs argument parsing
+    HERE;
     contextp->debug(0);
 
     // Randomization reset policy
     // May be overridden by commandArgs argument parsing
+    HERE;
     contextp->randReset(2);
 
     // Verilator must compute traced signals
+    HERE;
     contextp->traceEverOn(true);
 
     // Pass arguments so Verilated code can see them, e.g. $value$plusargs
     // This needs to be called before you create any model
+    HERE;
     contextp->commandArgs(argc, argv);
 
     // Construct the Verilated model, from Vtop.h generated from Verilating "top.v".
     // Using unique_ptr is similar to "Vtop* top = new Vtop" then deleting at end.
     // "TOP" will be the hierarchical name of the module.
+    HERE;
     const std::unique_ptr<Vtop> top{new Vtop{contextp.get(), "TOP"}};
 
     // Set Vtop's input signals
@@ -64,6 +71,7 @@ int main(int argc, char** argv) {
     top->in_wide[2] = 0x3;
 
     // Simulate until $finish
+    HERE;
     while (!contextp->gotFinish()) {
         // Historical note, before Verilator 4.200 Verilated::gotFinish()
         // was used above in place of contextp->gotFinish().
@@ -109,18 +117,22 @@ int main(int argc, char** argv) {
     }
 
     // Final model cleanup
+    HERE;
     top->final();
 
     // Coverage analysis (calling write only after the test is known to pass)
 #if VM_COVERAGE
+    HERE;
     Verilated::mkdir("logs");
     contextp->coveragep()->write("logs/coverage.dat");
 #endif
 
     // Final simulation summary
+    HERE;
     contextp->statsPrintSummary();
 
     // Return good completion status
     // Don't use exit() or destructor won't get called
+    HERE;
     return 0;
 }
