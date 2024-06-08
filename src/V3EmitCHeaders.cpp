@@ -450,7 +450,6 @@ class EmitCHeader final : public EmitCConstInit {
         // Open class body {{{
         puts("\n");
         putns(modp, "class ");
-        if (!VN_IS(modp, Class)) puts("alignas(VL_CACHE_LINE_BYTES) ");
         puts(prefixNameProtect(modp));
         if (const AstClass* const classp = VN_CAST(modp, Class)) {
             const string virtpub = classp->useVirtualPublic() ? "virtual public " : "public ";

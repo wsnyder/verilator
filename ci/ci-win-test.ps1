@@ -26,4 +26,8 @@ Release/example.exe --debugi 9
 #FIXME Remove-Item -path build -recurse
 #
 
+#  nano D:\a\verilator\verilator\repo\install\examples\cmake_hello_c\build\CMakeFiles\example.dir\Vtop.dir\Vtop__main.cpp
+#  cmake --build . --config Release -j 3 ; Release/example.exe
+
+
 #exit 0
