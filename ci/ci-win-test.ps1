@@ -21,8 +21,9 @@ cmake --build . --config Release -j 3
 
 Release/example.exe --debugi 9
 
-cd ..
-dir
-Remove-Item -path build -recurse
+#FIXME cd ..
+#FIXME dir
+#FIXME Remove-Item -path build -recurse
+#
 
 #exit 0
