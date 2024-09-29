@@ -914,6 +914,44 @@ class TristateVisitor final : public TristateBaseVisitor {
                || (strength1 <= strength && assignmentOfValueOnAllBits(assignp, 1));
     }
 
+    void mergeWiredNetsAssignments() {
+        // Support for WOR/TRIOR/WAND/TRIAND, by merging the Assignments for the
+        // same Net (merge by or for WOR/TIOR and merge by and for WAND/TRIAND).
+        for (auto& varpAssigns : m_assigns) {
+            Assigns& assigns = varpAssigns.second;
+            if (assigns.size() > 1) {
+                AstVar* varp = varpAssigns.first;
+                if (varp->isWiredNet()) {
+                    auto it = assigns.begin();
+                    AstAssignW* assignWp0 = *it;
+                    FileLine* const fl = assignWp0->fileline();
+                    AstNodeExpr *wExp = nullptr;
+                    const auto getMergeExpr = [&](AstNodeExpr* lhsp, AstNodeExpr* rhsp) {
+                        AstNodeExpr* expr = nullptr;
+                        if (varp->isWor()) expr = new AstOr{fl, lhsp, rhsp};
+                        else expr = new AstAnd{fl, lhsp, rhsp};
+                        return expr;
+                    };
+                    while(++it != assigns.end()) {
+                        AstAssignW* assignWpi = *it;
+                        if (!wExp) {
+                            wExp = getMergeExpr(assignWp0->rhsp()->cloneTreePure(false), assignWpi->rhsp()->cloneTreePure(false));
+                        } else {
+                            wExp = getMergeExpr(wExp, assignWpi->rhsp()->cloneTreePure(false));
+                        }
+                        VL_DO_DANGLING((assignWpi->unlinkFrBack()->deleteTree()), assignWpi);
+                    }
+                    AstVarRef* wVarRef = new AstVarRef{fl, varp, VAccess::WRITE};
+                    AstAssignW* wAssignp = new AstAssignW{fl, wVarRef, wExp};
+                    assignWp0->replaceWith(wAssignp);
+                    VL_DO_DANGLING((assignWp0->deleteTree()), assignWp0);
+                    assigns.clear();
+                    assigns.push_back(wAssignp);
+                }
+            }
+        }
+    }
+
     void removeNotStrongerAssignments(Assigns& assigns, AstAssignW* strongestp,
                                       uint8_t greatestKnownStrength) {
         // Weaker assignments are these assignments that can't change the final value of the net.
@@ -1776,6 +1814,8 @@ class TristateVisitor final : public TristateBaseVisitor {
                 iterateChildren(nodep);
                 m_graphing = false;
             }
+            // Merge the assignments for very Wired net LHS : wor, trior, wand and triand
+            mergeWiredNetsAssignments();
             // Remove all assignments not stronger than the strongest uniform constant
             removeAssignmentsNotStrongerThanUniformConstant();
             // Use graph to find tristate signals

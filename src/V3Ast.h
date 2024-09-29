@@ -908,7 +908,11 @@ public:
         STMTTEMP,
         XTEMP,
         IFACEREF,  // Used to link Interfaces between modules
-        MEMBER
+        MEMBER,
+        WOR,
+        TRIOR,
+        WAND,
+        TRIAND
     };
     enum en m_e;
     VVarType() VL_MT_SAFE : m_e{UNKNOWN} {}
@@ -921,17 +925,28 @@ public:
         static const char* const names[]
             = {"?",          "GPARAM",   "LPARAM",  "GENVAR",   "VAR",   "SUPPLY0", "SUPPLY1",
                "WIRE",       "WREAL",    "TRIWIRE", "TRI0",     "TRI1",  "PORT",    "BLOCKTEMP",
-               "MODULETEMP", "STMTTEMP", "XTEMP",   "IFACEREF", "MEMBER"};
+               "MODULETEMP", "STMTTEMP", "XTEMP", "IFACEREF", "MEMBER", "WOR", "TRIOR",
+               "WAND", "TRIAND"};
         return names[m_e];
     }
     bool isParam() const { return m_e == GPARAM || m_e == LPARAM; }
     bool isSignal() const {
         return (m_e == WIRE || m_e == WREAL || m_e == TRIWIRE || m_e == TRI0 || m_e == TRI1
-                || m_e == PORT || m_e == SUPPLY0 || m_e == SUPPLY1 || m_e == VAR);
+                || m_e == PORT || m_e == SUPPLY0 || m_e == SUPPLY1 || m_e == VAR || m_e == WOR
+                || m_e == TRIOR || m_e == WAND || m_e == TRIAND);
     }
     bool isNet() const {
         return (m_e == WIRE || m_e == TRIWIRE || m_e == TRI0 || m_e == TRI1 || m_e == SUPPLY0
-                || m_e == SUPPLY1);
+                || m_e == SUPPLY1 || m_e == WOR || m_e == TRIOR || m_e == WAND || m_e == TRIAND);
+    }
+    bool isWor() const {
+        return (m_e == WOR || m_e == TRIOR);
+    }
+    bool isWand() const {
+        return (m_e == WAND || m_e == TRIAND);
+    }
+    bool isWiredNet() const {
+        return (m_e == WOR || m_e == TRIOR || m_e == WAND || m_e == TRIAND);
     }
     bool isContAssignable() const {  // In Verilog, always ok in SystemVerilog
         return (m_e == SUPPLY0 || m_e == SUPPLY1 || m_e == WIRE || m_e == WREAL || m_e == TRIWIRE
@@ -973,6 +988,10 @@ public:
             /* XTEMP:        */ "VAR",
             /* IFACEREF:     */ "",  // Should not be traced directly
             /* MEMBER:       */ "VAR",
+            /* WOR:          */ "WOR",
+            /* TRIOR:        */ "TRIOR",
+            /* WAND:         */ "WAND",
+            /* TRIAND:       */ "TRIAND",
         };
         return lut[m_e];
     }
