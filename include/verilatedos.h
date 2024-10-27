@@ -72,7 +72,7 @@
 #endif
 
 #ifdef __cpp_lib_unreachable
-  /// Statement that may never be reached (for coverage etc)
+/// Statement that may never be reached (for coverage etc)
 # define VL_UNREACHABLE std::unreachable()  // C++23
 #elif defined(__GNUC__)
 # define VL_UNREACHABLE __builtin_unreachable()
