@@ -2720,7 +2720,7 @@ def run_them() -> None:
         for ftest in orig_runner.fail_tests:
             # Reschedule test
             if ftest.rerunnable:
-                ftest.clean(for_rerun = True)
+                ftest.clean(for_rerun=True)
             runner.one_test(py_filename=ftest.py_filename,
                             scenario=ftest.scenario,
                             rerun_skipping=not ftest.rerunnable)
