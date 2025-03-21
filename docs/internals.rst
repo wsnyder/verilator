@@ -2037,6 +2037,11 @@ driver.py Non-Scenario Arguments
   Show execution times of each step.  If an optional number is given,
   specifies the number of simulation cycles (for tests that support it).
 
+--clean
+  After a test passes, remove the generated objects.  Reduces storage
+  requirements, but may result in longer runtime if the tests are run
+  again.
+
 --debug
   Same as ``verilator --debug``: Use the debug version of Verilator which
   enables additional assertions, debugging messages, and structure dump
@@ -2077,7 +2082,7 @@ driver.py Non-Scenario Arguments
 
 --j #
   Run number of parallel tests, or 0 to determine the count based on the
-  number of cores installed.  Requires Perl's Parallel::Forker package.
+  number of cores installed.
 
 --quiet
   Suppress all output except for failures and progress messages every 15
