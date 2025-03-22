@@ -36,7 +36,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-24.04, ubuntu-22.04]
+        os: [ubuntu-24.04-arm, ubuntu-22.04-arm]
         compiler:
           - {cc: clang, cxx: clang++}
           - {cc: gcc, cxx: g++}
@@ -89,34 +89,34 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # Ubuntu 24.04 GCC
-          - {os: ubuntu-24.04, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: dist-vlt-0}
-          - {os: ubuntu-24.04, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: dist-vlt-1}
-          - {os: ubuntu-24.04, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: dist-vlt-2}
-          - {os: ubuntu-24.04, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: dist-vlt-3}
-          - {os: ubuntu-24.04, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: vltmt-0}
-          - {os: ubuntu-24.04, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: vltmt-1}
-          # Ubuntu 24.04 Clang
-          - {os: ubuntu-24.04, compiler: {cc: clang, cxx: clang++}, reloc: 0, suite: dist-vlt-0}
-          - {os: ubuntu-24.04, compiler: {cc: clang, cxx: clang++}, reloc: 0, suite: dist-vlt-1}
-          - {os: ubuntu-24.04, compiler: {cc: clang, cxx: clang++}, reloc: 0, suite: dist-vlt-2}
-          - {os: ubuntu-24.04, compiler: {cc: clang, cxx: clang++}, reloc: 0, suite: dist-vlt-3}
-          - {os: ubuntu-24.04, compiler: {cc: clang, cxx: clang++}, reloc: 0, suite: vltmt-0}
-          - {os: ubuntu-24.04, compiler: {cc: clang, cxx: clang++}, reloc: 0, suite: vltmt-1}
-          # Ubuntu 22.04 GCC
-          - {os: ubuntu-22.04, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: dist-vlt-0}
-          - {os: ubuntu-22.04, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: dist-vlt-1}
-          - {os: ubuntu-22.04, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: dist-vlt-2}
-          - {os: ubuntu-22.04, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: dist-vlt-3}
-          - {os: ubuntu-22.04, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: vltmt-0}
-          - {os: ubuntu-22.04, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: vltmt-1}
-          # Ubuntu 22.04 Clang, also test relocation
-          - {os: ubuntu-22.04, compiler: {cc: clang, cxx: clang++}, reloc: 1, suite: dist-vlt-0}
-          - {os: ubuntu-22.04, compiler: {cc: clang, cxx: clang++}, reloc: 1, suite: dist-vlt-1}
-          - {os: ubuntu-22.04, compiler: {cc: clang, cxx: clang++}, reloc: 1, suite: dist-vlt-2}
-          - {os: ubuntu-22.04, compiler: {cc: clang, cxx: clang++}, reloc: 1, suite: dist-vlt-3}
-          - {os: ubuntu-22.04, compiler: {cc: clang, cxx: clang++}, reloc: 1, suite: vltmt-0}
-          - {os: ubuntu-22.04, compiler: {cc: clang, cxx: clang++}, reloc: 1, suite: vltmt-1}
+          # Ubuntu 24.04-arm GCC
+          - {os: ubuntu-24.04-arm, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: dist-vlt-0}
+          - {os: ubuntu-24.04-arm, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: dist-vlt-1}
+          - {os: ubuntu-24.04-arm, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: dist-vlt-2}
+          - {os: ubuntu-24.04-arm, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: dist-vlt-3}
+          - {os: ubuntu-24.04-arm, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: vltmt-0}
+          - {os: ubuntu-24.04-arm, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: vltmt-1}
+          # Ubuntu 24.04-arm Clang
+          - {os: ubuntu-24.04-arm, compiler: {cc: clang, cxx: clang++}, reloc: 0, suite: dist-vlt-0}
+          - {os: ubuntu-24.04-arm, compiler: {cc: clang, cxx: clang++}, reloc: 0, suite: dist-vlt-1}
+          - {os: ubuntu-24.04-arm, compiler: {cc: clang, cxx: clang++}, reloc: 0, suite: dist-vlt-2}
+          - {os: ubuntu-24.04-arm, compiler: {cc: clang, cxx: clang++}, reloc: 0, suite: dist-vlt-3}
+          - {os: ubuntu-24.04-arm, compiler: {cc: clang, cxx: clang++}, reloc: 0, suite: vltmt-0}
+          - {os: ubuntu-24.04-arm, compiler: {cc: clang, cxx: clang++}, reloc: 0, suite: vltmt-1}
+          # Ubuntu 22.04-arm GCC
+          - {os: ubuntu-22.04-arm, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: dist-vlt-0}
+          - {os: ubuntu-22.04-arm, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: dist-vlt-1}
+          - {os: ubuntu-22.04-arm, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: dist-vlt-2}
+          - {os: ubuntu-22.04-arm, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: dist-vlt-3}
+          - {os: ubuntu-22.04-arm, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: vltmt-0}
+          - {os: ubuntu-22.04-arm, compiler: {cc: gcc, cxx: g++}, reloc: 0, suite: vltmt-1}
+          # Ubuntu 22.04-arm Clang, also test relocation
+          - {os: ubuntu-22.04-arm, compiler: {cc: clang, cxx: clang++}, reloc: 1, suite: dist-vlt-0}
+          - {os: ubuntu-22.04-arm, compiler: {cc: clang, cxx: clang++}, reloc: 1, suite: dist-vlt-1}
+          - {os: ubuntu-22.04-arm, compiler: {cc: clang, cxx: clang++}, reloc: 1, suite: dist-vlt-2}
+          - {os: ubuntu-22.04-arm, compiler: {cc: clang, cxx: clang++}, reloc: 1, suite: dist-vlt-3}
+          - {os: ubuntu-22.04-arm, compiler: {cc: clang, cxx: clang++}, reloc: 1, suite: vltmt-0}
+          - {os: ubuntu-22.04-arm, compiler: {cc: clang, cxx: clang++}, reloc: 1, suite: vltmt-1}
     runs-on: ${{ matrix.os }}
     name: Test | ${{ matrix.os }} | ${{ matrix.compiler.cc }} | ${{ matrix.reloc && 'reloc | ' || '' }} ${{ matrix.suite }}
     env:
@@ -159,11 +159,11 @@ jobs:
         run: ./ci/ci-script.bash
 
   lint-py:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04-arm
     name: Lint Python
     env:
       CI_BUILD_STAGE_NAME: build
-      CI_RUNS_ON: ubuntu-22.04
+      CI_RUNS_ON: ubuntu-22.04-arm
     steps:
       - name: Checkout
         uses: actions/checkout@v4
