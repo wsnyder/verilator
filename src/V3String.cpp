@@ -17,6 +17,10 @@
 #include "config_build.h"
 #include "verilatedos.h"
 
+#if defined(_WIN32) || defined(__MINGW32__)
+# include <io.h>  // open, read, write, close
+#endif
+
 #include "V3String.h"
 
 #include "V3Error.h"
