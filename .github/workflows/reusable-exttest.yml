@@ -83,7 +83,7 @@ jobs:
 
       - name: Test
         run: |
-          export VERILATOR_ROOT=$GITHUB_WORKSPACE/submodules/verilator
+          export VERILATOR_ROOT=$GITHUB_WORKSPACE/repo
           make -C ../ext_tests test
 
       - name: Breakpoint if tests failed
