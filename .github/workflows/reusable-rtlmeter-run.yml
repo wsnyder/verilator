@@ -127,3 +127,16 @@ jobs:
         run: | # This will fail the job if any of the runs failed
           ./rtlmeter run --verbose --cases='${{ inputs.cases }}' --compileArgs='${{ inputs.compileArgs }}' --executeArgs='${{ inputs.executeArgs }}'
           # My YAML highlighter sucks, so I put this comment here wiht a phony closing quote mark to make it work: '
+
+      - name: Breakpoint if tests failed
+        uses: namespacelabs/breakpoint-action@v0
+        with:
+          duration: 30m
+          authorized-users: wsnyder
+
+      - name: Breakpoint if tests failed
+        if: failure()
+        uses: namespacelabs/breakpoint-action@v0
+        with:
+          duration: 30m
+          authorized-users: wsnyder
