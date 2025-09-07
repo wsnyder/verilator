@@ -87,6 +87,12 @@ jobs:
         working-directory: rtlmeter
         run: make venv
 
+      - name: Breakpoint if tests pass
+        uses: namespacelabs/breakpoint-action@v0
+        with:
+          duration: 30m
+          authorized-users: wsnyder
+
       - name: Compile cases
         working-directory: rtlmeter
         run: |
@@ -128,15 +134,3 @@ jobs:
           ./rtlmeter run --verbose --cases='${{ inputs.cases }}' --compileArgs='${{ inputs.compileArgs }}' --executeArgs='${{ inputs.executeArgs }}'
           # My YAML highlighter sucks, so I put this comment here wiht a phony closing quote mark to make it work: '
 
-      - name: Breakpoint if tests pass
-        uses: namespacelabs/breakpoint-action@v0
-        with:
-          duration: 30m
-          authorized-users: wsnyder
-
-      - name: Breakpoint if tests failed
-        if: failure()
-        uses: namespacelabs/breakpoint-action@v0
-        with:
-          duration: 30m
-          authorized-users: wsnyder
