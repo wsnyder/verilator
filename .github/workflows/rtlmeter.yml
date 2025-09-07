@@ -39,14 +39,6 @@ jobs:
       runs-on: ubuntu-24.04
       cc: gcc
 
-  build-clang:
-    name: Build Clang
-    needs: start
-    uses: ./.github/workflows/reusable-rtlmeter-build.yml
-    with:
-      runs-on: ubuntu-24.04
-      cc: clang
-
   run-gcc:
     name: Run GCC | ${{ matrix.cases }}
     needs: build-gcc
@@ -89,51 +81,9 @@ jobs:
           - "XuanTie-C906:*"
           - "XuanTie-C910:*"
 
-  run-clang:
-    name: Run Clang | ${{ matrix.cases }}
-    needs: build-clang
-    uses: ./.github/workflows/reusable-rtlmeter-run.yml
-    with:
-      tag: clang
-      runs-on: ubuntu-24.04
-      cc: clang
-      cases: ${{ matrix.cases }}
-      run-name: "clang --threads 4"
-      compileArgs: "--threads 4"
-      executeArgs: ""
-    strategy:
-      fail-fast: false
-      max-parallel: ${{ github.event == 'schedule' && 2 || 7 }}
-      matrix:
-        cases:
-          - "NVDLA:*"
-          - "OpenPiton:1x1:*"
-          - "OpenPiton:2x2:*"
-          - "OpenPiton:4x4:*"
-          - "OpenTitan:*"
-          - "VeeR-EH1:asic*"
-          - "VeeR-EH1:default*"
-          - "VeeR-EH1:hiperf*"
-          - "VeeR-EH2:asic*"
-          - "VeeR-EH2:default*"
-          - "VeeR-EH2:hiperf*"
-          - "VeeR-EL2:asic*"
-          - "VeeR-EL2:default*"
-          - "VeeR-EL2:hiperf*"
-          - "Vortex:mini:*"
-          - "Vortex:sane:*"
-          - "XiangShan:default-chisel3:* !*:linux"
-          - "XiangShan:default-chisel6:* !*:linux"
-          - "XiangShan:mini-chisel3:* !*:linux"
-          - "XiangShan:mini-chisel6:* !*:linux"
-          - "XuanTie-E902:*"
-          - "XuanTie-E906:*"
-          - "XuanTie-C906:*"
-          - "XuanTie-C910:*"
-
   combine-results:
     name: Combine results
-    needs: [run-gcc, run-clang]
+    needs: [run-gcc]
     # Run if any of the dependencies have run, even if failed.
     # That is: do not run if all skipped, or the workflow was cancelled.
     if: ${{ (contains(needs.*.result, 'success') || contains(needs.*.result, 'failure')) && !cancelled() }}
@@ -141,7 +91,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tag: [gcc, clang]
+        tag: [gcc]
     steps:
       - name: Checkout RTLMeter
         uses: actions/checkout@v5
