@@ -29,7 +29,6 @@ jobs:
 
   exttest-2404-gcc:
     name: External Test | ${{ matrix.os }} | ${{ matrix.cc }}
-    needs: build-2404-gcc
     uses: ./.github/workflows/reusable-exttest.yml
     with:
       os: ${{ matrix.os }}
