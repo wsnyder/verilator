@@ -26,15 +26,6 @@ concurrency:
 jobs:
   start:
     name: Start
-    # Only run scheduled jobs if explicitly enabled for that repo (e.g.: not on forks)
-    # Only run pull request jobs if labelled as needing an RTLMeter run
-    # Always run workflow dispatch jobs
-    if: |
-      (github.event_name == 'schedule'
-        && vars.ENABLE_SCHEDULED_JOBS == 'true') ||
-      (github.event_name == 'pull_request'
-        && contains(github.event.pull_request.labels.*.name, 'pr: rtlmeter')) ||
-      (github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-24.04
     steps:
       - name: Startup
@@ -155,7 +146,8 @@ jobs:
       - name: Checkout RTLMeter
         uses: actions/checkout@v5
         with:
-          repository: "verilator/rtlmeter"
+          repository: "wsnyder/rtlmeter"
+          ref: bytes
           path: rtlmeter
       - name: Setup RTLMeter venv
         working-directory: rtlmeter
@@ -246,7 +238,8 @@ jobs:
       - name: Checkout RTLMeter
         uses: actions/checkout@v5
         with:
-          repository: "verilator/rtlmeter"
+          repository: "wsnyder/rtlmeter"
+          ref: bytes
           path: rtlmeter
       - name: Setup RTLMeter venv
         working-directory: rtlmeter

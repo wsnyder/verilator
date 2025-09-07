@@ -79,7 +79,8 @@ jobs:
       - name: Checkout RTLMeter
         uses: actions/checkout@v5
         with:
-          repository: "verilator/rtlmeter"
+          repository: "wsnyder/rtlmeter"
+          ref: bytes
           path: rtlmeter
 
       - name: Setup RTLMeter venv
