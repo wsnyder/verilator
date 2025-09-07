@@ -1,0 +1,53 @@
+---
+# DESCRIPTION: Github actions config
+# This name is key to badges in README.rst, so we use the name build
+# SPDX-License-Identifier: LGPL-3.0-only OR Artistic-2.0
+
+name: build-test
+
+on:
+  push:
+    branches-ignore:
+      - 'dependabot/**'  # Avoid duplicates: only run the PR, not the push
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'  # weekly
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: repo
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.actor }}-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+
+  build-2404-gcc:
+    name: Build-Ubuntu
+    uses: ./.github/workflows/reusable-build.yml
+    with:
+      os: ${{ matrix.os }}
+      cc: ${{ matrix.cc }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {os: ubuntu-24.04, cc: gcc}
+
+  exttest-2404-gcc:
+    name: External Test | ${{ matrix.os }} | ${{ matrix.cc }}
+    needs: build-2404-gcc
+    uses: ./.github/workflows/reusable-exttest.yml
+    with:
+      os: ${{ matrix.os }}
+      cc: ${{ matrix.cc }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {os: ubuntu-24.04, cc: gcc}
