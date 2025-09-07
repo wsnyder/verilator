@@ -79,8 +79,9 @@ jobs:
         run: ./ci/ci-install.bash
 
       - name: Install exttest dependencies
-        run: pipx install ../verilator_ext_tests/submodules/astsee
-        run: apt get install libperl-bit-vector || apt get install libperl-bit-vector
+        run: |
+          pipx install ../verilator_ext_tests/submodules/astsee
+          apt get install libperl-bit-vector || apt get install libperl-bit-vector
 
       - name: Test
         run: |
