@@ -79,9 +79,16 @@ jobs:
         run: ./ci/ci-install.bash
 
       - name: Install exttest dependencies
-        run: pipx install submodules/astsee
+        run: pipx install ../ext_tests/submodules/astsee
 
       - name: Test
         run: |
           export VERILATOR_ROOT=$GITHUB_WORKSPACE/submodules/verilator
-          (cd ../ext_tests ; make test)
+          make -C ../ext_tests test
+
+      - name: Breakpoint if tests failed
+        if: failure()
+        uses: namespacelabs/breakpoint-action@v0
+        with:
+          duration: 30m
+          authorized-users: wsnyder
