@@ -53,7 +53,7 @@ jobs:
           repository: wsnyder/verilator_ext_tests
           ref: 'refs/tags/v1'
           submodules: true
-          path: ext_tests
+          path: verilator_ext_tests
 
       - name: Download tar archive
         uses: actions/download-artifact@v5
@@ -79,12 +79,13 @@ jobs:
         run: ./ci/ci-install.bash
 
       - name: Install exttest dependencies
-        run: pipx install ../ext_tests/submodules/astsee
+        run: pipx install ../verilator_ext_tests/submodules/astsee
+        run: apt get install libperl-bit-vector || apt get install libperl-bit-vector
 
       - name: Test
         run: |
           export VERILATOR_ROOT=$GITHUB_WORKSPACE/repo
-          make -C ../ext_tests test
+          make -C ../verilator_ext_tests test
 
       - name: Breakpoint if tests failed
         if: failure()
