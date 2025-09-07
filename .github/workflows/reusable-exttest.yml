@@ -50,7 +50,7 @@ jobs:
         uses: actions/checkout@v5
         with:
 # FIXME need verilator/
-          repository: wsnyder/verilator_ext_tests@v5.041
+          repository: wsnyder/verilator_ext_tests@v1
           submodules: true
           path: ext_tests
 
