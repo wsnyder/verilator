@@ -80,7 +80,7 @@ jobs:
 
       - name: Install exttest dependencies
         run: |
-          sudo apt-get install libperl-bit-vector || sudo apt-get install libperl-bit-vector
+          sudo apt-get install libbit-vector-perl || sudo apt-get install libbit-vector-perl
           pipx install ../verilator_ext_tests/submodules/astsee
 
       - name: Test
