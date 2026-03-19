@@ -9,7 +9,14 @@ Set-PSDebug -Trace 1
 
 cd install
 $Env:VERILATOR_ROOT=$PWD
-cd examples/cmake_tracing_c
+
+cd $VERILATOR_ROOT/examples/cmake_tracing_c
+mkdir build
+cd build
+cmake ..
+cmake --build . --config Release -j 3
+
+cd $VERILATOR_ROOT/examples/cmake_tracing_c_fst
 mkdir build
 cd build
 cmake ..
