@@ -15,16 +15,17 @@ mkdir build
 cd build
 cmake ..
 cmake --build . --config Release -j 3
-cd ../../..
+# TODO put this back in, see issue# 5163
+# Release/example.exe
+cd ..
+Remove-Item -path build -recurse
+cd ../..
 
 cd examples/cmake_tracing_c_fst
 mkdir build
 cd build
 cmake ..
 cmake --build . --config Release -j 3
-
-# TODO put this back in, see issue# 5163
-# Release/example.exe
-
 cd ..
 Remove-Item -path build -recurse
+cd ../..
