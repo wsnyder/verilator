@@ -7,6 +7,8 @@
 
 Set-PSDebug -Trace 1
 
+vcpkg install zlib
+
 cd install
 $Env:VERILATOR_ROOT=$PWD
 
