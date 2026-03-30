@@ -105,8 +105,8 @@ elif [ "$CI_BUILD_STAGE_NAME" = "test" ]; then
     fi
     if [[ "$CI_RUNS_ON" =~ "ubuntu-22.04" ]] || [[ "$CI_RUNS_ON" =~ "ubuntu-24.04" ]] || [[ "$CI_RUNS_ON" =~ "ubuntu-26.04" ]]; then
       if [[ ! "$CI_RUNS_ON" =~ "-riscv" ]]; then
-        sudo apt-get install --yes libsystemc-dev ||
-        sudo apt-get install --yes libsystemc-dev
+        sudo apt-get install --yes libsystemc libsystemc-dev ||
+        sudo apt-get install --yes libsystemc libsystemc-dev
       fi
     fi
   elif [ "$CI_OS_NAME" = "osx" ]; then
