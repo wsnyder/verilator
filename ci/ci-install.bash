@@ -58,7 +58,7 @@ if [ "$CI_BUILD_STAGE_NAME" = "build" ]; then
     sudo apt-get update
     sudo apt-get install --yes ccache help2man libfl-dev ||
     sudo apt-get install --yes ccache help2man libfl-dev
-    if [[ ! "$CI_RUNS_ON" =~ "ubuntu-22.04" ]]; then
+    if [[ ! "$CI_RUNS_ON" =~ "ubuntu-22.04" ]] && [[ ! "$CI_RUNS_ON" =~ "-riscv" ]]; then
       # Some conflict of libunwind verison on 22.04, can live without it for now
       sudo apt-get install --yes libjemalloc-dev ||
       sudo apt-get install --yes libjemalloc-dev
