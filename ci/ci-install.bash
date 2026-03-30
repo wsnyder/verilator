@@ -56,12 +56,8 @@ if [ "$CI_BUILD_STAGE_NAME" = "build" ]; then
   if [ "$CI_OS_NAME" = "linux" ]; then
     sudo apt-get update ||
     sudo apt-get update
-    sudo apt-get install --yes ccache  ||
-    sudo apt-get install --yes ccache
-    sudo apt-get install --yes help2man ||
-    sudo apt-get install --yes help2man
-    sudo apt-get install --yes libfl-dev ||
-    sudo apt-get install --yes libfl-dev
+    sudo apt-get install --yes ccache help2man libfl-dev ||
+    sudo apt-get install --yes ccache help2man libfl-dev
     if [[ ! "$CI_RUNS_ON" =~ "ubuntu-22.04" ]]; then
       # Some conflict of libunwind verison on 22.04, can live without it for now
       sudo apt-get install --yes libjemalloc-dev ||
@@ -74,20 +70,14 @@ if [ "$CI_BUILD_STAGE_NAME" = "build" ]; then
       fi
     fi
     if [[ "$CI_RUNS_ON" =~ "ubuntu-22.04" ]] || [[ "$CI_RUNS_ON" =~ "ubuntu-24.04" ]] || [[ "$CI_RUNS_ON" =~ "ubuntu-26.04" ]]; then
-      sudo apt-get install --yes bear ||
-      sudo apt-get install --yes bear
-      sudo apt-get install --yes mold ||
-      sudo apt-get install --yes mold
+      sudo apt-get install --yes bear mold ||
+      sudo apt-get install --yes bear mold
     fi
   elif [ "$CI_OS_NAME" = "osx" ]; then
     brew update ||
     brew update
-    brew install ccache perl gperftools  ||
-    brew install ccache perl gperftools 
-    brew install ccache perl autoconf bison flex ||
-    brew install ccache perl autoconf bison flex
-    brew install ccache perl help2man ||
-    brew install ccache perl help2man
+    brew install ccache perl gperftools autoconf bison flex help2man ||
+    brew install ccache perl gperftools autoconf bison flex help2man
   elif [ "$CI_OS_NAME" = "freebsd" ]; then
     sudo pkg install -y autoconf bison ccache gmake perl5
   else
@@ -114,8 +104,10 @@ elif [ "$CI_BUILD_STAGE_NAME" = "test" ]; then
       sudo apt-get install --yes python3-clang mold
     fi
     if [[ "$CI_RUNS_ON" =~ "ubuntu-22.04" ]] || [[ "$CI_RUNS_ON" =~ "ubuntu-24.04" ]] || [[ "$CI_RUNS_ON" =~ "ubuntu-26.04" ]]; then
-      sudo apt-get install --yes libsystemc-dev ||
-      sudo apt-get install --yes libsystemc-dev
+      if [[ ! "$CI_RUNS_ON" =~ "-riscv" ]]; then
+        sudo apt-get install --yes libsystemc-dev ||
+        sudo apt-get install --yes libsystemc-dev
+      fi
     fi
   elif [ "$CI_OS_NAME" = "osx" ]; then
     brew update
