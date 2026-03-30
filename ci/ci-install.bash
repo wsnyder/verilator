@@ -56,26 +56,38 @@ if [ "$CI_BUILD_STAGE_NAME" = "build" ]; then
   if [ "$CI_OS_NAME" = "linux" ]; then
     sudo apt-get update ||
     sudo apt-get update
-    sudo apt-get install ccache help2man libfl-dev ||
-    sudo apt-get install ccache help2man libfl-dev
+    sudo apt-get install ccache  ||
+    sudo apt-get install ccache
+    sudo apt-get install help2man ||
+    sudo apt-get install help2man
+    sudo apt-get install libfl-dev ||
+    sudo apt-get install libfl-dev
     if [[ ! "$CI_RUNS_ON" =~ "ubuntu-22.04" ]]; then
       # Some conflict of libunwind verison on 22.04, can live without it for now
       sudo apt-get install libjemalloc-dev ||
       sudo apt-get install libjemalloc-dev
     fi
     if [[ "$CI_RUNS_ON" =~ "ubuntu-22.04" ]] || [[ "$CI_RUNS_ON" =~ "ubuntu-24.04" ]] || [[ "$CI_RUNS_ON" =~ "ubuntu-26.04" ]]; then
-      sudo apt-get install libsystemc libsystemc-dev ||
-      sudo apt-get install libsystemc libsystemc-dev
+      sudo apt-get install libsystemc ||
+      sudo apt-get install libsystemc
+      sudo apt-get install libsystemc-dev ||
+      sudo apt-get install libsystemc-dev
     fi
     if [[ "$CI_RUNS_ON" =~ "ubuntu-22.04" ]] || [[ "$CI_RUNS_ON" =~ "ubuntu-24.04" ]] || [[ "$CI_RUNS_ON" =~ "ubuntu-26.04" ]]; then
-      sudo apt-get install bear mold ||
-      sudo apt-get install bear mold
+      sudo apt-get install bear ||
+      sudo apt-get install bear
+      sudo apt-get install mold ||
+      sudo apt-get install mold
     fi
   elif [ "$CI_OS_NAME" = "osx" ]; then
     brew update ||
     brew update
-    brew install ccache perl gperftools autoconf bison flex help2man ||
-    brew install ccache perl gperftools autoconf bison flex help2man
+    brew install ccache perl gperftools  ||
+    brew install ccache perl gperftools 
+    brew install ccache perl autoconf bison flex ||
+    brew install ccache perl autoconf bison flex
+    brew install ccache perl help2man ||
+    brew install ccache perl help2man
   elif [ "$CI_OS_NAME" = "freebsd" ]; then
     sudo pkg install -y autoconf bison ccache gmake perl5
   else
