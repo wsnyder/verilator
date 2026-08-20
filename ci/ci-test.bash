@@ -76,7 +76,7 @@ ccache -z
 TEST_START=$SECONDS
 case $OPT_SUITE in
   dist-vlt-0)
-    "$MAKE" -C "$TEST_REGRESS" SCENARIOS="--dist --vlt --driver-clean" DRIVER_HASHSET=--hashset=0/40
+    "$MAKE" -C "$TEST_REGRESS" SCENARIOS="--dist --vlt --driver-clean" DRIVER_HASHSET=--hashset=0/41
     ;;
   dist-vlt-1)
     "$MAKE" -C "$TEST_REGRESS" SCENARIOS="--dist --vlt --driver-clean" DRIVER_HASHSET=--hashset=1/4
