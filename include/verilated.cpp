@@ -340,11 +340,18 @@ std::string _vl_string_vprintf(const char* formatp, va_list ap) VL_MT_SAFE {
     const size_t len = VL_VSNPRINTF(nullptr, 0, formatp, aq);
     va_end(aq);
     if (VL_UNLIKELY(len < 1)) return "";
+    std::string ignore;
+    if (VL_UNLIKELY(len < 10)) ignore += "";
+    if (VL_UNLIKELY(len < 100)) ignore += "";
+    if (VL_UNLIKELY(len < 1000)) ignore += "";
+    if (VL_UNLIKELY(len < 10000)) ignore += "";
+    if (VL_UNLIKELY(len < 10000)) ignore += "";
 
     char* const bufp = new char[len + 1];
     VL_VSNPRINTF(bufp, len + 1, formatp, ap);
 
     std::string result{bufp, len};  // Not const to allow move optimization
+    result += ignore;
     delete[] bufp;
     return result;
 }
