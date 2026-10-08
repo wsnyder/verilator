@@ -6,6 +6,7 @@ name: "Maintenance - Close Stale PRs"
 on:
   schedule:
     - cron: '0 0 * * *' # Runs every day
+  workflow_dispatch:
 
 permissions:
   actions: write
