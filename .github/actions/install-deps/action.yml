@@ -67,7 +67,9 @@ runs:
       working-directory: ${{ inputs.repo }}
       env:
         STAGE: ${{ inputs.stage }}
-      run: ./ci/ci-install.bash "$STAGE"
+      run: |
+        ./ci/ci-install.bash "$STAGE"
+        false
 
     - name: Install dependencies (retry)
       if: ${{ steps.install.outcome == 'failure' }}
