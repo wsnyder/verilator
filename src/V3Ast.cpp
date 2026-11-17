@@ -28,20 +28,19 @@ VL_DEFINE_DEBUG_FUNCTIONS;
 //======================================================================
 // Statics
 
-uint64_t VIsCached::s_cachedCntGbl = 1;
-
-uint64_t AstNode::s_editCntLast = 0;
-uint64_t AstNode::s_editCntGbl = 0;  // Hot cache line
-
+// These must all initialize to zero to stay in same single hot cache-line linker section
+VL_ATTR_SECTION_ALIGN(".data.hot_v3ast") uint64_t VIsCached::s_cachedCntGbl = 0;  // Warm
+VL_ATTR_SECTION(".data.hot_v3ast") uint64_t AstNode::s_editCntGbl = 0;  // Hot, leave adjacent
 // To allow for fast clearing of all user pointers, we keep a "timestamp"
 // along with each userp, and thus by bumping this count we can make it look
 // as if we iterated across the entire tree to set all the userp's to null.
-int AstNode::s_cloneCntGbl = 0;
-uint32_t VNUser1InUse::s_userCntGbl = 0;  // Hot cache line, leave adjacent
-uint32_t VNUser2InUse::s_userCntGbl = 0;  // Hot cache line, leave adjacent
-uint32_t VNUser3InUse::s_userCntGbl = 0;  // Hot cache line, leave adjacent
-uint32_t VNUser4InUse::s_userCntGbl = 0;  // Hot cache line, leave adjacent
+VL_ATTR_SECTION(".data.hot_v3ast") uint32_t VNUser1InUse::s_userCntGbl = 0;  // Hot, leave adjacent
+VL_ATTR_SECTION(".data.hot_v3ast") uint32_t VNUser2InUse::s_userCntGbl = 0;  // Hot, leave adjacent
+VL_ATTR_SECTION(".data.hot_v3ast") uint32_t VNUser3InUse::s_userCntGbl = 0;  // Hot, leave adjacent
+VL_ATTR_SECTION(".data.hot_v3ast") uint32_t VNUser4InUse::s_userCntGbl = 0;  // Hot, leave adjacent
+VL_ATTR_SECTION(".data.hot_v3ast") int AstNode::s_cloneCntGbl = 0;  // Warm
 
+uint64_t AstNode::s_editCntLast = 0;  // Cold, only for dumping
 bool VNUser1InUse::s_userBusy = false;
 bool VNUser2InUse::s_userBusy = false;
 bool VNUser3InUse::s_userBusy = false;

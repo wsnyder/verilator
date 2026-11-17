@@ -60,6 +60,8 @@
 # endif
 # define VL_ATTR_PRINTF(fmtArgNum) __attribute__((format(printf, (fmtArgNum), (fmtArgNum) + 1)))
 # define VL_ATTR_PURE __attribute__((pure))
+# define VL_ATTR_SECTION(sec) __attribute__((section(sec)))
+# define VL_ATTR_SECTION_ALIGN(sec) __attribute__((section(sec), aligned(VL_CACHE_LINE_BYTES)))
 # define VL_ATTR_UNUSED __attribute__((unused))
 # define VL_ATTR_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
 # if !defined(_WIN32) && !defined(__MINGW32__)
@@ -185,6 +187,12 @@
 #endif
 #ifndef VL_ATTR_PURE
 # define VL_ATTR_PURE  ///< Attribute that function is pure (and thus also VL_MT_SAFE)
+#endif
+#ifndef VL_ATTR_SECTION
+# define VL_ATTR_SECTION(sec)  ///< Attribute to place in hot linker section
+#endif
+#ifndef VL_ATTR_SECTION_ALIGN
+# define VL_ATTR_SECTION(sec)  ///< Attribute to place in hot linker section, cache aligned
 #endif
 #ifndef VL_ATTR_UNUSED
 # define VL_ATTR_UNUSED  ///< Attribute that function that may be never used
